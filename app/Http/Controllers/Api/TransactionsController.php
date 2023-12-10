@@ -113,7 +113,7 @@ class TransactionsController extends Controller
 
             return response()->json(msgdata(success(), trans('lang.success'), $data));
         } else {
-            return msgdata(failed(), trans('lang.not_authorized'), (object)[]);
+            return response()->json(msgdata(failed(), trans('lang.not_authorized'), (object)[]),failed());
         }
     }
 

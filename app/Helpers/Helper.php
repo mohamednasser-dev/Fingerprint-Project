@@ -122,6 +122,7 @@ function msgdata($status, $key, $data)
     $msg['status'] = $status;
     $msg['msg'] = $key;
     $msg['data'] = $data;
+
     return $msg;
 }
 

@@ -21,6 +21,9 @@ class CreateUsersTable extends Migration
             $table->string('jwt')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('device_id')->nullable();
+            $table->enum('type',['user','admin'])->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });

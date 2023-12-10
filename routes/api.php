@@ -23,19 +23,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/update-profile', [UserController::class, 'updateProfile']);
-Route::get('/states', [UserController::class, 'states']);
-
-
-Route::get('/get-transaction', [TransactionsController::class, 'transactions']);
-Route::post('/add-transaction', [TransactionsController::class, 'AddTransaction']);
-Route::post('/edit-transaction', [TransactionsController::class, 'EditTransaction']);
-Route::get('/delete-transaction/{id}', [TransactionsController::class, 'deleteTransaction']);
 
 
 
+Route::group(['middleware' => ['admin'], 'prefix' => "admin"], function () {
 
-Route::group(['prefix' => 'reports'], function () {
-    Route::get('/with_state', [ReportsController::class, 'with_state']);
-    Route::get('/without_state', [ReportsController::class, 'without_state']);
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/', [UserController::class, 'index']);
+        Route::post('/store', [UserController::class, 'store']);
+        Route::post('/update', [UserController::class, 'update']);
+        Route::post('/reset-device-id', [UserController::class, 'resetDeviceId']);
+        Route::post('/delete', [UserController::class, 'delete']);
+
+    });
+
 
 });
