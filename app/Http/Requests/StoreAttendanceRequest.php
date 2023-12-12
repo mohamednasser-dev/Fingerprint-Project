@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
-class UsersUpdateRequest extends FormRequest
+class StoreAttendanceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,11 +27,8 @@ class UsersUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|exists:users,id',
-            'name' => 'required',
-            'phone' => 'required|unique:users,phone,' . $this->id,
-            'email' => 'required|email|unique:users,email,' . $this->id,
-            'password' => 'nullable|min:6',
+            "type" => "required|in:check_in,check_out",
+            "note" => "nullable|string",
         ];
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AttendanceController;
 use App\Http\Controllers\Api\TransactionsController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ReportsController;
@@ -25,7 +26,6 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('/update-profile', [UserController::class, 'updateProfile']);
 
 
-
 Route::group(['middleware' => ['admin'], 'prefix' => "admin"], function () {
 
     Route::group(['prefix' => 'users'], function () {
@@ -36,6 +36,9 @@ Route::group(['middleware' => ['admin'], 'prefix' => "admin"], function () {
         Route::post('/delete', [UserController::class, 'delete']);
 
     });
+});
 
+Route::group(['prefix' => 'attendance'], function () {
+    Route::post('/store', [AttendanceController::class, 'storeAttendance']);
 
 });

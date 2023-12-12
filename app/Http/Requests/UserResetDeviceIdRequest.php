@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
 
 class UserResetDeviceIdRequest extends FormRequest
 {
@@ -26,5 +29,13 @@ class UserResetDeviceIdRequest extends FormRequest
         return [
             'id' => 'required|exists:users,id',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $error = implode('- ', $validator->errors()->all());
+        throw new HttpResponseException(
+            sendResponse(JsonResponse::HTTP_UNPROCESSABLE_ENTITY, $error)
+        );
     }
 }
