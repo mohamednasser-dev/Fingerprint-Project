@@ -3,22 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminAllUsersReportRequest;
+use App\Http\Requests\AdminAttendanceReportRequest;
 use App\Http\Requests\StoreAttendanceRequest;
 use App\Http\Requests\UserAttendanceReportRequest;
-use App\Http\Requests\UserResetDeviceIdRequest;
-use App\Http\Requests\UsersRequest;
-use App\Http\Requests\UsersUpdateRequest;
-use App\Http\Resources\StateResource;
-use App\Http\Resources\UserResource;
-use App\Http\Resources\UsersDashboardResource;
+use App\Http\Resources\AdminAttendanceReportResource;
+use App\Http\Resources\UserAttendanceReportResource;
 use App\Models\Attendance;
-use App\Models\State;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
+use Carbon\CarbonPeriod;
 
 class AttendanceController extends Controller
 {
@@ -62,10 +56,104 @@ class AttendanceController extends Controller
         }
     }
 
-    public function attendanceReport(UserAttendanceReportRequest $request){
+    public function attendanceReport(UserAttendanceReportRequest $request)
+    {
+        $jwt = ($request->hasHeader('jwt') ? $request->header('jwt') : "");
+        $user = check_jwt($jwt);
+        if ($user) {
+            $from_date = Carbon::parse($request->from_date)->endOfDay();
+            $to_date = Carbon::parse($request->to_date)->endOfDay();
+            $period = CarbonPeriod::create($from_date, $to_date);
 
-        
 
+            $dateStrings = [];
+            foreach ($period as $date) {
+                $dateStrings[] = $date->toDateString();
+            }
+
+            foreach ($dateStrings as $key => $date) {
+                $attend = Attendance::where('user_id', $user->id)
+                    ->whereDate('date', $date)->first();
+                $data[$key]["date"] = $date;
+                $data[$key]["in_time"] = $attend ? $attend->in_time : null;
+                $data[$key]["out_time"] = $attend ? $attend->out_time : null;
+                $data[$key]["notes"] = $attend ? $attend->notes : null;
+            }
+
+            $data = UserAttendanceReportResource::collection(collect($data));
+            return msgdata(success(), 'تم بنجاح', $data);
+
+        } else {
+            return msgdata(not_authoize(), 'برجاء تسجيل الدخول', (object)[]);
+        }
+    }
+
+    public function AdminAttendanceByUserReport(AdminAttendanceReportRequest $request)
+    {
+        $jwt = ($request->hasHeader('jwt') ? $request->header('jwt') : "");
+        $user = check_jwt($jwt);
+        if ($user) {
+            $from_date = Carbon::parse($request->from_date)->endOfDay();
+            $to_date = Carbon::parse($request->to_date)->endOfDay();
+            $period = CarbonPeriod::create($from_date, $to_date);
+
+            $dateStrings = [];
+            foreach ($period as $date) {
+                $dateStrings[] = $date->toDateString();
+            }
+
+            $user_data = User::whereId($request->user_id)->first();
+            foreach ($dateStrings as $key => $date) {
+                $attend = Attendance::where('user_id', $request->user_id)
+                    ->whereDate('date', $date)->first();
+
+                $data[$key]["date"] = $date;
+                $data[$key]["in_time"] = $attend ? $attend->in_time : null;
+                $data[$key]["out_time"] = $attend ? $attend->out_time : null;
+                $data[$key]["notes"] = $attend ? $attend->notes : null;
+            }
+            $response['user'] = $user_data->name;
+            $response['report'] = $data;
+            return msgdata(success(), 'تم بنجاح', $response);
+
+        } else {
+            return msgdata(not_authoize(), 'برجاء تسجيل الدخول', (object)[]);
+        }
+    }
+
+    public function AdminAttendanceAllUsersReport(AdminAllUsersReportRequest $request)
+    {
+        $jwt = ($request->hasHeader('jwt') ? $request->header('jwt') : "");
+        $user = check_jwt($jwt);
+        if ($user) {
+            $from_date = Carbon::parse($request->from_date)->endOfDay();
+            $to_date = Carbon::parse($request->to_date)->endOfDay();
+            $period = CarbonPeriod::create($from_date, $to_date);
+
+            $dateStrings = [];
+            foreach ($period as $date) {
+                $dateStrings[] = $date->toDateString();
+            }
+
+
+            $users = User::whereType('user')->get();
+            foreach ($users as $key1=>$item) {
+                foreach ($dateStrings as $key => $date) {
+                    $attend = Attendance::where('user_id',$item->id)->whereDate('date', $date)->first();
+                    $data[$key]["date"] = $date;
+                    $data[$key]["in_time"] = $attend ? $attend->in_time : null;
+                    $data[$key]["out_time"] = $attend ? $attend->out_time : null;
+                    $data[$key]["notes"] = $attend ? $attend->notes : null;
+                }
+                $response[$key1]['user'] = $item->name;
+                $response[$key1]['report'] = $data;
+            }
+
+            return msgdata(success(), 'تم بنجاح', $response);
+
+        } else {
+            return msgdata(not_authoize(), 'برجاء تسجيل الدخول', (object)[]);
+        }
     }
 
 }

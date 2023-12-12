@@ -185,8 +185,8 @@ return [
         'from' => ' من ',
         'to' => ' الى  ',
         'reason' => ' السبب',
-        'from_date' => ' بداية الاجازه',
-        'to_date' => ' انتهاء الاجازه',
+        'from_date' => 'تاريخ البدء',
+        'to_date' => ' تاريخ النهاية',
         'open_to' => 'وقت الغلق',
         'open_from' => 'الفتح',
         'overtime' => ' احتساب ساعه العمل الاضافيه ',
@@ -237,28 +237,18 @@ return [
         'delivery_time_id' => 'وقت التوصبل ',
         'delivery_date' => ' تاريخ التوصيل',
         'manager_email' => ' البريد الاليكترونى للمدير',
-        'image'=>'الصورة',
-        'deligate_name'=>'اسم المندوب',
-        'deligate_phone'=>'رقم جوال المندوب',
-        'branch_name'=>'اسم الفرع',
-        'branch_email'=>'البريد الاليكترونى للفرع',
-        'branch_phone'=>'رقم جوال الفرع',
-        'branch_password'=>'الرقم السري للفرع',
-        'selected_date'=>'اليوم المختار',
-        'coupon_code'=>'كوبون الخصم',
-        'old_date'=>'التاريخ القديم',
-        'new_date'=>'التاريخ الجديد',
-        'device_id'=>'رقم الجهاز',
-
-
-
-
-
-
-
-
-
-
+        'image' => 'الصورة',
+        'deligate_name' => 'اسم المندوب',
+        'deligate_phone' => 'رقم جوال المندوب',
+        'branch_name' => 'اسم الفرع',
+        'branch_email' => 'البريد الاليكترونى للفرع',
+        'branch_phone' => 'رقم جوال الفرع',
+        'branch_password' => 'الرقم السري للفرع',
+        'selected_date' => 'اليوم المختار',
+        'coupon_code' => 'كوبون الخصم',
+        'old_date' => 'التاريخ القديم',
+        'new_date' => 'التاريخ الجديد',
+        'device_id' => 'رقم الجهاز',
 
 
     ],
