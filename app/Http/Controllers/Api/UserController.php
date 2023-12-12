@@ -27,7 +27,7 @@ class UserController extends Controller
         ];
         $validate = Validator::make($request->all(), $rule);
         if ($validate->fails()) {
-            return response()->json(msgdata(failed(), $validate->messages()->first(), (object)[]));
+            return response()->json(msgdata(error(), $validate->messages()->first(), (object)[]));
         } else {
 
             $credentials = $request->only(['phone', 'password']);
@@ -43,7 +43,7 @@ class UserController extends Controller
                 ];
                 $validate = Validator::make($request->all(), $rule);
                 if ($validate->fails()) {
-                    return response()->json(msgdata(failed(), $validate->messages()->first(), (object)[]));
+                    return response()->json(msgdata(error(), $validate->messages()->first(), (object)[]));
                 }
 
                 if ($user->device_id == null) {
@@ -67,38 +67,31 @@ class UserController extends Controller
         }
     }
 
-    public function updateProfile(Request $request)
+    public function updatePassword(Request $request)
     {
         $jwt = ($request->hasHeader('jwt') ? $request->header('jwt') : "");
         $user = check_jwt($jwt);
         if ($user) {
             $rule = [
-                'name' => 'required',
-                'phone' => 'required',
-                'email' => 'nullable|email',
-                'password' => 'nullable|confirmed|min:6',
+                'password' => 'required|confirmed',
+                'old_password' => 'required',
             ];
             $validate = Validator::make($request->all(), $rule);
             if ($validate->fails()) {
-                return response()->json(msgdata(failed(), $validate->messages()->first(), (object)[]));
+                return response()->json(msgdata(error(), $validate->messages()->first(), (object)[]));
             } else {
-
-                $user->name = $request->name;
-                $user->phone = $request->phone;
-                $user->phone = $request->phone;
-                $user->jwt = Str::random(60);
-                if ($request->password) {
-                    $user->password = $request->password;
+                $pass = $user->password;
+                if (\Hash::check($request->old_password, $pass)) {
+                    $data = User::find($user->id);
+                    $data->password = \Hash::make($request->password);
+                    $data->save();
+                    return response()->json(msg(success(), 'تم التعديل بنجاح'));
+                } else {
+                    return response()->json(msg(error(), 'كلمة المرور القديمة غير صحيحة'),error());
                 }
-                if ($request->email) {
-                    $user->email = $request->email;
-                }
-                $user->save();
-                $data = new UserResource($user);
-                return response()->json(msgdata(success(), 'تم التعديل بنجاح', $data));
             }
         } else {
-            return msgdata(not_authoize(), 'برجاء تسجيل الدخول', (object)[]);
+            return response()->json(msgdata(not_authoize(), 'برجاء تسجيل الدخول', (object)[]),not_authoize());
         }
     }
 
