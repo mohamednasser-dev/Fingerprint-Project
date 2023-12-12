@@ -87,11 +87,11 @@ class UserController extends Controller
                     $data->save();
                     return response()->json(msg(success(), 'تم التعديل بنجاح'));
                 } else {
-                    return response()->json(msg(error(), 'كلمة المرور القديمة غير صحيحة'),error());
+                    return response()->json(msg(error(), 'كلمة المرور القديمة غير صحيحة'), error());
                 }
             }
         } else {
-            return response()->json(msgdata(not_authoize(), 'برجاء تسجيل الدخول', (object)[]),not_authoize());
+            return response()->json(msgdata(not_authoize(), 'برجاء تسجيل الدخول', (object)[]), not_authoize());
         }
     }
 
@@ -105,6 +105,7 @@ class UserController extends Controller
     public function store(UsersRequest $request)
     {
         $data = $request->validated();
+        $data['type'] = 'user';
         $user = User::create($data);
         $data = new UsersDashboardResource($user);
         return response()->json(msgdata(success(), 'تم الاضافة بنجاح', $data));
