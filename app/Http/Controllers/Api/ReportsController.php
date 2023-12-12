@@ -26,7 +26,7 @@ class ReportsController extends Controller
             ];
             $validate = Validator::make($request->all(), $rule);
             if ($validate->fails()) {
-                return response()->json(msg(error(), $validate->messages()->first()));
+                return msg(error(), $validate->messages()->first());
             }
 
             $data['sum_price_private_transport'] = Transaction::where('state_id', $request->state_id)->whereBetween('transaction_date', [$request->from, $request->to])->sum('price_private_transport');
@@ -45,7 +45,7 @@ class ReportsController extends Controller
             $name = rand(1000, 9999) . time() . '.pdf';
             $pdf->save(public_path() . '/reports/' . $name);
 
-            return response()->json(msgdata(success(), trans('lang.success'), url('/') . '/reports/' . $name));
+            return msgdata(success(), trans('lang.success'), url('/') . '/reports/' . $name);
         } else {
             return msgdata(failed(), trans('lang.not_authorized'), (object)[]);
         }
@@ -62,7 +62,7 @@ class ReportsController extends Controller
             ];
             $validate = Validator::make($request->all(), $rule);
             if ($validate->fails()) {
-                return response()->json(msg(error(), $validate->messages()->first()));
+                return msg(error(), $validate->messages()->first());
             }
 
             $data['sum_price_private_transport'] = Transaction::whereBetween('transaction_date', [$request->from, $request->to])->sum('price_private_transport');
@@ -77,7 +77,7 @@ class ReportsController extends Controller
             $pdf = PDF::loadView('Report', ['data' => $data, 'from' => $request->from, 'to' => $request->to]);
             $name = rand(1000, 9999) . time() . '.pdf';
             $pdf->save(public_path() . '/reports/' . $name);
-            return response()->json(msgdata(success(), trans('lang.success'), url('/') . '/reports/' . $name));
+            return msgdata(success(), trans('lang.success'), url('/') . '/reports/' . $name);
         } else {
             return msgdata(failed(), trans('lang.not_authorized'), (object)[]);
         }

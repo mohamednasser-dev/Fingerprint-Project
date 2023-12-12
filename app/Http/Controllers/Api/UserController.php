@@ -27,7 +27,7 @@ class UserController extends Controller
         ];
         $validate = Validator::make($request->all(), $rule);
         if ($validate->fails()) {
-            return response()->json(msgdata(error(), $validate->messages()->first(), (object)[]));
+            return msgdata(error(), $validate->messages()->first(), (object)[]);
         } else {
 
             $credentials = $request->only(['phone', 'password']);
@@ -43,7 +43,7 @@ class UserController extends Controller
                 ];
                 $validate = Validator::make($request->all(), $rule);
                 if ($validate->fails()) {
-                    return response()->json(msgdata(error(), $validate->messages()->first(), (object)[]));
+                    return msgdata(error(), $validate->messages()->first(), (object)[]);
                 }
 
                 if ($user->device_id == null) {
@@ -63,7 +63,7 @@ class UserController extends Controller
             $user = User::whereId($user->id)->first();
             $data = new UserResource($user);
 
-            return response()->json(msgdata(success(), 'تم الدخول بنجاح', $data));
+            return msgdata(success(), 'تم الدخول بنجاح', $data);
         }
     }
 
@@ -78,20 +78,20 @@ class UserController extends Controller
             ];
             $validate = Validator::make($request->all(), $rule);
             if ($validate->fails()) {
-                return response()->json(msgdata(error(), $validate->messages()->first(), (object)[]));
+                return msgdata(error(), $validate->messages()->first(), (object)[]);
             } else {
                 $pass = $user->password;
                 if (\Hash::check($request->old_password, $pass)) {
                     $data = User::find($user->id);
                     $data->password = \Hash::make($request->password);
                     $data->save();
-                    return response()->json(msg(success(), 'تم التعديل بنجاح'));
+                    return msg(success(), 'تم التعديل بنجاح');
                 } else {
-                    return response()->json(msg(error(), 'كلمة المرور القديمة غير صحيحة'), error());
+                    return msg(error(), 'كلمة المرور القديمة غير صحيحة');
                 }
             }
         } else {
-            return response()->json(msgdata(not_authoize(), 'برجاء تسجيل الدخول', (object)[]), not_authoize());
+            return msgdata(not_authoize(), 'برجاء تسجيل الدخول', (object)[]);
         }
     }
 
@@ -99,7 +99,7 @@ class UserController extends Controller
     {
         $users = User::Where('type', 'user')->paginate(10);
         $data = UsersDashboardResource::collection($users)->response()->getData(true);
-        return response()->json(msgdata(success(), 'تم عرض البيانات بنجاح', $data));
+        return msgdata(success(), 'تم عرض البيانات بنجاح', $data);
     }
 
     public function store(UsersRequest $request)
@@ -108,7 +108,7 @@ class UserController extends Controller
         $data['type'] = 'user';
         $user = User::create($data);
         $data = new UsersDashboardResource($user);
-        return response()->json(msgdata(success(), 'تم الاضافة بنجاح', $data));
+        return msgdata(success(), 'تم الاضافة بنجاح', $data);
     }
 
     public function update(UsersUpdateRequest $request)
@@ -118,21 +118,21 @@ class UserController extends Controller
             $data['password'] = bcrypt($data['password']);
         }
         User::whereId($data['id'])->update($data);
-        return response()->json(msgdata(success(), 'تم التعديل بنجاح', (object)[]));
+        return msgdata(success(), 'تم التعديل بنجاح', (object)[]);
     }
 
     public function resetDeviceId(UserResetDeviceIdRequest $request)
     {
         $data = $request->validated();
         User::where('id', $data['id'])->update(['device_id' => null]);
-        return response()->json(msgdata(success(), 'تم اعادة ضبط رقم الجهاز للمستخدم بنجاح', (object)[]));
+        return msgdata(success(), 'تم اعادة ضبط رقم الجهاز للمستخدم بنجاح', (object)[]);
     }
 
     public function delete(UserResetDeviceIdRequest $request)
     {
         $data = $request->validated();
         User::where('id', $data['id'])->delete();
-        return response()->json(msgdata(success(), 'تم الحذف بنجاح', (object)[]));
+        return msgdata(success(), 'تم الحذف بنجاح', (object)[]);
     }
 
 }

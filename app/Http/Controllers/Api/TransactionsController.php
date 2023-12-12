@@ -27,9 +27,9 @@ class TransactionsController extends Controller
 
             $data = TransactionResource::collection($query)->response()->getData(true);
 
-            return response()->json(msgdata(success(), 'تم  بنجاح', $data));
+            return msgdata(success(), 'تم  بنجاح', $data);
         }
-        return response()->json(msgdata(not_authoize(), 'برجاء تسجيل الدخول', (object)[]),not_authoize());
+        return msgdata(not_authoize(), 'برجاء تسجيل الدخول', (object)[]);
     }
 
     public function AddTransaction(Request $request)
@@ -59,7 +59,7 @@ class TransactionsController extends Controller
 
             $validate = Validator::make($request->all(), $rule);
             if ($validate->fails()) {
-                return response()->json(msg(error(), $validate->messages()->first()));
+                return msg(error(), $validate->messages()->first());
             }
             $is_exists = Transaction::where('state_id', $request->state_id)
                 ->where('transaction_date', $request->transaction_date)
@@ -70,7 +70,7 @@ class TransactionsController extends Controller
             $data = Transaction::create($validate->validated());
             $data = new TransactionResource($data);
 
-            return response()->json(msgdata(success(), trans('lang.success'), $data));
+            return msgdata(success(), trans('lang.success'), $data);
         } else {
             return msgdata(failed(), trans('lang.not_authorized'), (object)[]);
         }
@@ -103,7 +103,7 @@ class TransactionsController extends Controller
 
             $validate = Validator::make($request->all(), $rule);
             if ($validate->fails()) {
-                return response()->json(msg(error(), $validate->messages()->first()));
+                return msg(error(), $validate->messages()->first());
             }
 
             $data = Transaction::where('id', $request->id)->update($validate->validated());
@@ -111,9 +111,9 @@ class TransactionsController extends Controller
             $data = Transaction::whereId($request->id)->first();
             $data = new TransactionResource($data);
 
-            return response()->json(msgdata(success(), trans('lang.success'), $data));
+            return msgdata(success(), trans('lang.success'), $data);
         } else {
-            return response()->json(msgdata(failed(), trans('lang.not_authorized'), (object)[]),failed());
+            return msgdata(failed(), trans('lang.not_authorized'), (object)[]);
         }
     }
 
@@ -128,7 +128,7 @@ class TransactionsController extends Controller
                 return msgdata(not_found(), "العملية غير موجودة", (object)[]);
             }
             $data->delete();
-            return response()->json(msgdata(success(), trans('lang.success'), (object)[]));
+            return msgdata(success(), trans('lang.success'), (object)[]);
         } else {
             return msgdata(failed(), trans('lang.not_authorized'), (object)[]);
         }

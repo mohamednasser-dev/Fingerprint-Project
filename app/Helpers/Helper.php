@@ -123,7 +123,7 @@ function msgdata($status, $key, $data)
     $msg['msg'] = $key;
     $msg['data'] = $data;
 
-    return $msg;
+    return response()->json($msg,$status);
 }
 
 
@@ -131,7 +131,7 @@ function msg($status, $key)
 {
     $msg['status'] = $status;
     $msg['msg'] = $key;
-    return $msg;
+    return response()->json($msg,$status);
 }
 
 function send($tokens, $title = "رسالة جديدة", $msg = "رسالة جديدة فى البريد", $type = 'mail', $chat = null)

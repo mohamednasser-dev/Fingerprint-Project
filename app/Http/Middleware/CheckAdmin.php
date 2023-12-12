@@ -20,8 +20,7 @@ class CheckAdmin
         if ($user && $user->type == 'admin') {
             return $next($request);
         } else {
-            return response()->json(msgdata(not_authoize(), 'برجاء تسجيل الدخول كمدير', (object)[]) , not_authoize() );
-
+            return msgdata(not_authoize(), 'برجاء تسجيل الدخول كمدير', (object)[]);
         }
     }
 }
