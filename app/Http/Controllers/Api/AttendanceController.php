@@ -35,16 +35,23 @@ class AttendanceController extends Controller
                 ->where('date', $data['date'])
                 ->first();
             if ($request->type == "check_in") {
-                if ($attendance_today && $attendance_today->check_in != null) {
+                if ($attendance_today && $attendance_today->in_time != null) {
                     return msgdata(failed(), ' تم تسجيل حضور اليوم من قبل ', (object)[]);
                 }
                 $data['in_time'] = Carbon::now()->format("H:i");
                 Attendance::create($data);
                 return msgdata(success(), 'تم تسجيل الحضور بنجاح', (object)[]);
             } else {
-                if ($attendance_today && $attendance_today->check_out != null) {
+
+                if (!$attendance_today) {
+                    return msgdata(failed(), ' برجاء تسجيل حضور اولآ', (object)[]);
+                }
+
+                if ($attendance_today->out_time != null) {
                     return msgdata(failed(), ' تم تسجيل انصراف اليوم من قبل', (object)[]);
                 }
+
+
                 $data['out_time'] = Carbon::now()->format("H:i");
                 Attendance::create($data);
                 return msgdata(success(), 'تم تسجيل انصراف بنجاح', (object)[]);
