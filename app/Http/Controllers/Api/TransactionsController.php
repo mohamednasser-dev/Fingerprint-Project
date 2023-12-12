@@ -29,7 +29,7 @@ class TransactionsController extends Controller
 
             return response()->json(msgdata(success(), 'تم  بنجاح', $data));
         }
-        return msgdata(not_authoize(), 'برجاء تسجيل الدخول', (object)[]);
+        return response()->json(msgdata(not_authoize(), 'برجاء تسجيل الدخول', (object)[]),not_authoize());
     }
 
     public function AddTransaction(Request $request)
@@ -59,7 +59,7 @@ class TransactionsController extends Controller
 
             $validate = Validator::make($request->all(), $rule);
             if ($validate->fails()) {
-                return response()->json(msg(failed(), $validate->messages()->first()));
+                return response()->json(msg(error(), $validate->messages()->first()));
             }
             $is_exists = Transaction::where('state_id', $request->state_id)
                 ->where('transaction_date', $request->transaction_date)
@@ -103,7 +103,7 @@ class TransactionsController extends Controller
 
             $validate = Validator::make($request->all(), $rule);
             if ($validate->fails()) {
-                return response()->json(msg(failed(), $validate->messages()->first()));
+                return response()->json(msg(error(), $validate->messages()->first()));
             }
 
             $data = Transaction::where('id', $request->id)->update($validate->validated());

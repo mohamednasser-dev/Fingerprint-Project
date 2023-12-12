@@ -194,14 +194,19 @@ function success()
     return 200;
 }
 
+function error()
+{
+    return 400;
+}
+
 function failed()
 {
-    return 401;
+    return 400;
 }
 
 function not_authoize()
 {
-    return 403;
+    return 401;
 }
 
 function not_acceptable()

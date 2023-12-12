@@ -26,7 +26,7 @@ class ReportsController extends Controller
             ];
             $validate = Validator::make($request->all(), $rule);
             if ($validate->fails()) {
-                return response()->json(msg(failed(), $validate->messages()->first()));
+                return response()->json(msg(error(), $validate->messages()->first()));
             }
 
             $data['sum_price_private_transport'] = Transaction::where('state_id', $request->state_id)->whereBetween('transaction_date', [$request->from, $request->to])->sum('price_private_transport');
@@ -62,7 +62,7 @@ class ReportsController extends Controller
             ];
             $validate = Validator::make($request->all(), $rule);
             if ($validate->fails()) {
-                return response()->json(msg(failed(), $validate->messages()->first()));
+                return response()->json(msg(error(), $validate->messages()->first()));
             }
 
             $data['sum_price_private_transport'] = Transaction::whereBetween('transaction_date', [$request->from, $request->to])->sum('price_private_transport');
