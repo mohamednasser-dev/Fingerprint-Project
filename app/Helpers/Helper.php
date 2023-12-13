@@ -71,7 +71,7 @@ if (!function_exists('sendResponse')) {
                 'status' => $status,
                 'msg' => $msg,
                 'data' => $data
-            ]
+            ],$status
         );
     }
 }
