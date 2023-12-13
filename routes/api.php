@@ -37,16 +37,20 @@ Route::group(['middleware' => ['admin'], 'prefix' => "admin"], function () {
         Route::post('/delete', [UserController::class, 'delete']);
 
     });
-
     Route::group(['prefix' => 'reports'], function () {
         Route::post('/by-user', [AttendanceController::class, 'AdminAttendanceByUserReport']);
         Route::post('/all-users', [AttendanceController::class, 'AdminAttendanceAllUsersReport']);
 
+        Route::post('/print/by-all-users', [ReportsController::class, 'allUsersReport']);
+        Route::post('/print/by-user', [ReportsController::class, 'userReport']);
+
     });
 });
+Route::group(['middleware' => ['user']], function () {
 
-Route::group(['prefix' => 'attendance'], function () {
-    Route::post('/store', [AttendanceController::class, 'storeAttendance']);
-    Route::post('/report', [AttendanceController::class, 'attendanceReport']);
+    Route::group(['prefix' => 'attendance'], function () {
+        Route::post('/store', [AttendanceController::class, 'storeAttendance']);
+        Route::post('/report', [AttendanceController::class, 'attendanceReport']);
 
+    });
 });
