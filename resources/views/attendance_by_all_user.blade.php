@@ -54,8 +54,8 @@
                         @foreach($row['report'] as $details)
                             <tr>
                                 <td style="text-align: center">{{$details['date']}}</td>
-                                <td style="text-align: center">{{$details['in_time']}}</td>
-                                <td style="text-align: center">{{$details['out_time']}}</td>
+                                <td style="text-align: center">{{$details['in_time'] ? date('g:i a', strtotime($details['in_time'])) : 'لم يتم الحضور'}}</td>
+                                <td style="text-align: center">{{$details['out_time'] ? $details['out_time']->format('g:i a') : 'لم يتم الانصراف'}}</td>
                                 <td style="text-align: center">{{$details['notes']}}</td>
                             </tr>
                         @endforeach
