@@ -67,6 +67,32 @@ class UserController extends Controller
         }
     }
 
+    public function updateProfile(Request $request)
+    {
+        $jwt = ($request->hasHeader('jwt') ? $request->header('jwt') : "");
+        $user = check_jwt($jwt);
+        if ($user) {
+            $rule = [
+                'name' => 'required|string|max:255',
+                'email' => 'nullable|email|unique:users,email,' . $user->id,
+                'phone' => 'required|unique:users,phone,' . $user->id,
+            ];
+            $validate = Validator::make($request->all(), $rule);
+            if ($validate->fails()) {
+                return msgdata(failed(), $validate->messages()->first(), (object)[]);
+            } else {
+                $user->name = $request->name;
+                $user->phone = $request->phone;
+                $user->email = $request->email;
+                $user->save();
+                $data = new UserResource($user);
+                return msgdata(success(), 'تم التعديل بنجاح', $data);
+            }
+        } else {
+            return msgdata(not_authoize(), 'برجاء تسجيل الدخول', (object)[]);
+        }
+    }
+
     public function updatePassword(Request $request)
     {
         $jwt = ($request->hasHeader('jwt') ? $request->header('jwt') : "");
