@@ -43,6 +43,12 @@
                         <th style="font-family: DejaVu Sans, sans-serif ;font-size: 13px;text-align:center">
                             الملاحظات
                         </th>
+                        <th style="font-family: DejaVu Sans, sans-serif ;font-size: 13px;text-align:center">
+                            خطوط العرض
+                        </th>
+                        <th style="font-family: DejaVu Sans, sans-serif ;font-size: 13px;text-align:center">
+                            خطوط الطول
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -53,6 +59,8 @@
                                 <td style="text-align: center">{{$details['in_time']}}</td>
                                 <td style="text-align: center">{{$details['out_time']}}</td>
                                 <td style="text-align: center">{{$details['notes']}}</td>
+                                <td style="text-align: center">{{$details['lat']}}</td>
+                                <td style="text-align: center">{{$details['lng']}}</td>
                             </tr>
                         @endforeach
                     </tbody>

@@ -24,6 +24,7 @@ class User extends Authenticatable
         'type',
         'jwt',
         'password',
+        'is_active',
     ];
 
     /**

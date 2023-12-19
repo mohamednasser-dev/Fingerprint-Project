@@ -29,6 +29,8 @@ class StoreAttendanceRequest extends FormRequest
         return [
             "type" => "required|in:check_in,check_out",
             "note" => "nullable|string",
+            "lat" => "required|string",
+            "lng" => "required|string",
         ];
     }
 

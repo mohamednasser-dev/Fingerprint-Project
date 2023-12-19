@@ -15,6 +15,8 @@ class Attendance extends Model
         "in_time",
         "out_time",
         "notes",
+        "lat",
+        "lng"
     ];
 
 

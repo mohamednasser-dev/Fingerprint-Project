@@ -19,6 +19,7 @@ class UsersDashboardResource extends JsonResource
             'name' => (string)$this->name,
             'email' => (string)$this->email,
             'phone' => (string)$this->phone,
+            'is_active' => (int)$this->is_active
         ];
     }
 }

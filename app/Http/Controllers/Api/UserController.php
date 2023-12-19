@@ -45,7 +45,9 @@ class UserController extends Controller
                 if ($validate->fails()) {
                     return msgdata(error(), $validate->messages()->first(), (object)[]);
                 }
-
+                if ($user->is_active == 0) {
+                    return msgdata(not_acceptable(), 'المستخدم غير مفعل يرجى التواصل مع الادارة للتفعيل', (object)[]);
+                }
                 if ($user->device_id == null) {
                     $user->device_id = $request->device_id;
                     $user->save();
@@ -53,11 +55,8 @@ class UserController extends Controller
                     if ($user->device_id != null && $user->device_id != $request->device_id) {
                         Auth::logout();
                         return msgdata(failed(), 'تم الدخول من جهاز اخر يرجى تسجيل الدخول من جهازك', (object)[]);
-
                     }
                 }
-
-
             }
             User::where('id', $user->id)->update(['jwt' => Str::random(60)]);
             $user = User::whereId($user->id)->first();

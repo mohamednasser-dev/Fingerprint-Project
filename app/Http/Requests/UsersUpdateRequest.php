@@ -32,6 +32,7 @@ class UsersUpdateRequest extends FormRequest
             'phone' => 'required|unique:users,phone,' . $this->id,
             'email' => 'required|email|unique:users,email,' . $this->id,
             'password' => 'nullable|min:6',
+            'is_active' => 'required|in:0,1',
         ];
     }
 
