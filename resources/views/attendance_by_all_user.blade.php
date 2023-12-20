@@ -54,7 +54,7 @@
                     @foreach($data as $row)
                         @if( isset($row['user']) )
                             <tr>
-                                <td  style="text-align: center" colspan="4">{{$row['user']}}</td>
+                                <td  style="text-align: center" colspan="6">{{$row['user']}}</td>
                             </tr>
                         @endif
                         @foreach($row['report'] as $details)

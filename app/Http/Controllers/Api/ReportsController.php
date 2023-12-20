@@ -50,6 +50,8 @@ class ReportsController extends Controller
                 $data[$key]["in_time"] = $attend ? $attend->in_time : null;
                 $data[$key]["out_time"] = $attend ? $attend->out_time : null;
                 $data[$key]["notes"] = $attend ? $attend->notes : null;
+                $data[$key]["lat"] = $attend ? $attend->lat : null;
+                $data[$key]["lng"] = $attend ? $attend->lng : null;
             }
             $response[$key1]['user'] = $item->name;
             $response[$key1]['report'] = $data;
@@ -79,6 +81,8 @@ class ReportsController extends Controller
             $data[$key]["in_time"] = $attend ? $attend->in_time : null;
             $data[$key]["out_time"] = $attend ? $attend->out_time : null;
             $data[$key]["notes"] = $attend ? $attend->notes : null;
+            $data[$key]["lat"] = $attend ? $attend->lat : null;
+            $data[$key]["lng"] = $attend ? $attend->lng : null;
         }
         $response['report'] = $data;
 
