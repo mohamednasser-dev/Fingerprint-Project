@@ -122,7 +122,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = User::Where('type', 'user')->paginate(10);
+        $users = User::Where('type', 'user')->orderBy('id','desc')->paginate(10);
         $data = UsersDashboardResource::collection($users)->response()->getData(true);
         return msgdata(success(), 'تم عرض البيانات بنجاح', $data);
     }
@@ -141,6 +141,8 @@ class UserController extends Controller
         $data = $request->validated();
         if (isset($data['password'])) {
             $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']);
         }
         User::whereId($data['id'])->update($data);
         return msgdata(success(), 'تم التعديل بنجاح', (object)[]);

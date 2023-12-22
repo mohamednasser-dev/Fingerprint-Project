@@ -86,10 +86,10 @@
 <footer id="footer" class=" "
         style="font-family:DejaVu Sans, sans-serif ;font-size: 13px;text-align: center;padding-left: 175px">
     <br>
-    <p class="clearfix text-muted text-sm-center mb-0 px-2"><span class="float-md-left d-xs-block d-md-inline-block">Copyright   2021 <a
-                href="#" target="_blank"
-                class="text-bold-800 grey darken-2">Uram IT </a>, All rights reserved. </span><span
-            class="float-md-right d-xs-block d-md-inline-block"> </span></p>
+{{--    <p class="clearfix text-muted text-sm-center mb-0 px-2"><span class="float-md-left d-xs-block d-md-inline-block">Copyright   2021 <a--}}
+{{--                href="#" target="_blank"--}}
+{{--                class="text-bold-800 grey darken-2">Uram IT </a>, All rights reserved. </span><span--}}
+{{--            class="float-md-right d-xs-block d-md-inline-block"> </span></p>--}}
 </footer>
 </body>
 </html>
