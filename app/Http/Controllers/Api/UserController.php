@@ -108,7 +108,7 @@ class UserController extends Controller
                 $pass = $user->password;
                 if (\Hash::check($request->old_password, $pass)) {
                     $data = User::find($user->id);
-                    $data->password = \Hash::make($request->password);
+                    $data->password = $request->password;
                     $data->save();
                     return msg(success(), 'تم التعديل بنجاح');
                 } else {
