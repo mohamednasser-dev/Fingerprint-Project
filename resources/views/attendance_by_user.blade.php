@@ -35,12 +35,12 @@
                             التاريخ
                         </th>
                         <th style="font-family: DejaVu Sans, sans-serif ;font-size: 13px;text-align:center">
-                            الحضور
+                            النوع
                         </th>
                         <th style="font-family: DejaVu Sans, sans-serif ;font-size: 13px;text-align:center">
-                            الانصراف
+                            الوقت
                         </th>
-                        <th style="font-family: DejaVu Sans, sans-serif ;font-size: 13px;text-align:center">
+                        <th style="font-family: DejaVu Sans, sans-serif ;font-size: 13px;text-align:center; width: 35%;">
                             الملاحظات
                         </th>
                         <th style="font-family: DejaVu Sans, sans-serif ;font-size: 13px;text-align:center">
@@ -55,12 +55,20 @@
 
                         @foreach($data['report'] as $details)
                             <tr>
-                                <td style="text-align: center">{{$details['date']}}</td>
-                                <td style="text-align: center">{{$details['in_time']}}</td>
-                                <td style="text-align: center">{{$details['out_time']}}</td>
+                                <td style="text-align: center" rowspan="2" >{{$details['date']}}</td>
+                                <td style="text-align: center">الحضور</td>
+                                <td style="text-align: center">{{$details['in_time'] ? date('g:i a', strtotime($details['in_time'])) : 'لم يتم الحضور'}}</td>
                                 <td style="text-align: center">{{$details['notes']}}</td>
                                 <td style="text-align: center">{{$details['lat']}}</td>
                                 <td style="text-align: center">{{$details['lng']}}</td>
+                            </tr>
+                            <tr>
+
+                                <td style="text-align: center">الانصراف</td>
+                                <td style="text-align: center">{{$details['out_time'] ? $details['out_time']->format('g:i a') : 'لم يتم الانصراف'}}</td>
+                                <td style="text-align: center">{{$details['out_notes']}}</td>
+                                <td style="text-align: center">{{$details['out_lat']}}</td>
+                                <td style="text-align: center">{{$details['out_lng']}}</td>
                             </tr>
                         @endforeach
                     </tbody>

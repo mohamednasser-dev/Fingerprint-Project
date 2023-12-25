@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attendance extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         "user_id",
         "date",
@@ -16,8 +14,14 @@ class Attendance extends Model
         "out_time",
         "notes",
         "lat",
-        "lng"
+        "lng",
+        "out_lng",
+        "out_lat",
+        "out_notes",
+
     ];
+
+    use HasFactory;
 
 
     public function user()

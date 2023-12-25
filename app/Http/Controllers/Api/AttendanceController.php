@@ -23,10 +23,17 @@ class AttendanceController extends Controller
         $user = check_jwt($jwt);
 
         $data['user_id'] = $user->id;
-        $data['notes'] = $request->note;
         $data['type'] = $request->type;
-        $data['lat'] = $request->lat;
-        $data['lng'] = $request->lng;
+        if($data['type'] == 'check_in'){
+            $data['notes'] = $request->note;
+            $data['lat'] = $request->lat;
+            $data['lng'] = $request->lng;
+        }else{
+            $data['out_notes'] = $request->note;
+            $data['out_lat'] = $request->lat;
+            $data['out_lng'] = $request->lng;
+        }
+
         $data['date'] = Carbon::now()->format("Y-m-d");
         $attendance_today = Attendance::where('user_id', $user->id)
             ->where('date', $data['date'])
@@ -104,6 +111,10 @@ class AttendanceController extends Controller
             $data[$key]["notes"] = $attend ? $attend->notes : null;
             $data[$key]["lat"] = $attend ? $attend->lat : null;
             $data[$key]["lng"] = $attend ? $attend->lng : null;
+
+            $data[$key]["out_notes"] = $attend ? $attend->out_notes : null;
+            $data[$key]["out_lat"] = $attend ? $attend->out_lat : null;
+            $data[$key]["out_lng"] = $attend ? $attend->out_lng : null;
         }
         $response['user'] = $user_data->name;
         $response['report'] = $data;
@@ -128,9 +139,14 @@ class AttendanceController extends Controller
                 $data[$key]["date"] = $date;
                 $data[$key]["in_time"] = $attend ? $attend->in_time : null;
                 $data[$key]["out_time"] = $attend ? $attend->out_time : null;
+
                 $data[$key]["notes"] = $attend ? $attend->notes : null;
                 $data[$key]["lat"] = $attend ? $attend->lat : null;
                 $data[$key]["lng"] = $attend ? $attend->lng : null;
+
+                $data[$key]["out_notes"] = $attend ? $attend->out_notes : null;
+                $data[$key]["out_lat"] = $attend ? $attend->out_lat : null;
+                $data[$key]["out_lng"] = $attend ? $attend->out_lng : null;
             }
             $response[$key1]['user'] = $item->name;
             $response[$key1]['report'] = $data;

@@ -52,6 +52,10 @@ class ReportsController extends Controller
                 $data[$key]["notes"] = $attend ? $attend->notes : null;
                 $data[$key]["lat"] = $attend ? $attend->lat : null;
                 $data[$key]["lng"] = $attend ? $attend->lng : null;
+
+                $data[$key]["out_lng"] = $attend ? $attend->out_lng : null;
+                $data[$key]["out_lat"] = $attend ? $attend->out_lat : null;
+                $data[$key]["out_notes"] = $attend ? $attend->out_notes : null;
             }
             $response[$key1]['user'] = $item->name;
             $response[$key1]['report'] = $data;
@@ -74,15 +78,20 @@ class ReportsController extends Controller
         foreach ($period as $date) {
             $dateStrings[] = $date->toDateString();
         }
-        $response['user'] = User::where('id',$request->user_id)->first();
+        $response['user'] = User::where('id', $request->user_id)->first();
         foreach ($dateStrings as $key => $date) {
             $attend = Attendance::where('user_id', $request->user_id)->whereDate('date', $date)->first();
             $data[$key]["date"] = $date;
             $data[$key]["in_time"] = $attend ? $attend->in_time : null;
             $data[$key]["out_time"] = $attend ? $attend->out_time : null;
+
             $data[$key]["notes"] = $attend ? $attend->notes : null;
             $data[$key]["lat"] = $attend ? $attend->lat : null;
             $data[$key]["lng"] = $attend ? $attend->lng : null;
+
+            $data[$key]["out_lng"] = $attend ? $attend->out_lng : null;
+            $data[$key]["out_lat"] = $attend ? $attend->out_lat : null;
+            $data[$key]["out_notes"] = $attend ? $attend->out_notes : null;
         }
         $response['report'] = $data;
 
