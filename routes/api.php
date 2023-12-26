@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/login', [UserController::class, 'login']);
+Route::get('/login/data', [UserController::class, 'getData']);
 Route::post('/update-profile', [UserController::class, 'updateProfile']);
 Route::post('/update-password', [UserController::class, 'updatePassword']);
 

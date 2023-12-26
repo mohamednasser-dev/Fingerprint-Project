@@ -66,6 +66,18 @@ class UserController extends Controller
         }
     }
 
+   public function getData(Request $request)
+    {
+        $jwt = ($request->hasHeader('jwt') ? $request->header('jwt') : "");
+        $user = check_jwt($jwt);
+        if ($user) {
+            $data = new UserResource($user);
+            return msgdata(success(), 'تم اظهار البيانات بنجاح بنجاح', $data);
+        } else {
+            return msgdata(not_authoize(), 'برجاء تسجيل الدخول', (object)[]);
+        }
+    }
+
     public function updateProfile(Request $request)
     {
         $jwt = ($request->hasHeader('jwt') ? $request->header('jwt') : "");
