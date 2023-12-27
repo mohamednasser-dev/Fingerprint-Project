@@ -83,6 +83,12 @@ class AttendanceController extends Controller
             $data[$key]["in_time"] = $attend ? $attend->in_time : null;
             $data[$key]["out_time"] = $attend ? $attend->out_time : null;
             $data[$key]["notes"] = $attend ? $attend->notes : null;
+            $data[$key]["lat"] = $attend ? $attend->lat : null;
+            $data[$key]["lng"] = $attend ? $attend->lng : null;
+
+            $data[$key]["out_notes"] = $attend ? $attend->out_notes : null;
+            $data[$key]["out_lat"] = $attend ? $attend->out_lat : null;
+            $data[$key]["out_lng"] = $attend ? $attend->out_lng : null;
         }
 
         $data = UserAttendanceReportResource::collection(collect($data));
