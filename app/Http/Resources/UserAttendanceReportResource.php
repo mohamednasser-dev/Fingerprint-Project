@@ -21,8 +21,8 @@ class UserAttendanceReportResource extends JsonResource
         return [
 
             'date' => (string)$this['date'],
-            'in_time' => (string)$this['in_time'] ? Carbon::parse($this['in_time'])->format("H:i") : null,
-            'out_time' => (string)$this['in_time'] ?Carbon::parse($this['out_time'])->format("H:i"): null,
+            'in_time' => (string)$this['in_time'] ? Carbon::parse($this['in_time'])->format("H:i") : "",
+            'out_time' => (string)$this['in_time'] ?Carbon::parse($this['out_time'])->format("H:i"): "",
             'notes' => (string)$this['notes'],
             'lat' => (string)$this['lat'],
             'lng' => (string)$this['lng'],
