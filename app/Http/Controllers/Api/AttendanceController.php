@@ -90,7 +90,7 @@ class AttendanceController extends Controller
             $data[$key]["out_lat"] = $attend ? $attend->out_lat : null;
             $data[$key]["out_lng"] = $attend ? $attend->out_lng : null;
         }
-
+        $data = array_reverse($data);
         $data = UserAttendanceReportResource::collection(collect($data));
         return msgdata(success(), 'تم بنجاح', $data);
     }
