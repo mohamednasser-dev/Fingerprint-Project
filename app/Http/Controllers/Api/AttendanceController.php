@@ -80,15 +80,15 @@ class AttendanceController extends Controller
             $attend = Attendance::where('user_id', $user->id)
                 ->whereDate('date', $date)->first();
             $data[$key]["date"] = $date;
-            $data[$key]["in_time"] = $attend ? $attend->in_time : null;
-            $data[$key]["out_time"] = $attend ? $attend->out_time : null;
-            $data[$key]["notes"] = $attend ? $attend->notes : null;
-            $data[$key]["lat"] = $attend ? $attend->lat : null;
-            $data[$key]["lng"] = $attend ? $attend->lng : null;
+            $data[$key]["in_time"] = $attend ? $attend->in_time : "" ;
+            $data[$key]["out_time"] = $attend ? $attend->out_time : "" ;
+            $data[$key]["notes"] = $attend ? $attend->notes : "" ;
+            $data[$key]["lat"] = $attend ? $attend->lat : "" ;
+            $data[$key]["lng"] = $attend ? $attend->lng : "" ;
 
-            $data[$key]["out_notes"] = $attend ? $attend->out_notes : null;
-            $data[$key]["out_lat"] = $attend ? $attend->out_lat : null;
-            $data[$key]["out_lng"] = $attend ? $attend->out_lng : null;
+            $data[$key]["out_notes"] = $attend ? $attend->out_notes : "" ;
+            $data[$key]["out_lat"] = $attend ? $attend->out_lat : "" ;
+            $data[$key]["out_lng"] = $attend ? $attend->out_lng : "" ;
         }
         $data = array_reverse($data);
         $data = UserAttendanceReportResource::collection(collect($data));
@@ -112,15 +112,15 @@ class AttendanceController extends Controller
                 ->whereDate('date', $date)->first();
 
             $data[$key]["date"] = $date;
-            $data[$key]["in_time"] = $attend ? $attend->in_time : null;
-            $data[$key]["out_time"] = $attend ? $attend->out_time : null;
-            $data[$key]["notes"] = $attend ? $attend->notes : null;
-            $data[$key]["lat"] = $attend ? $attend->lat : null;
-            $data[$key]["lng"] = $attend ? $attend->lng : null;
+            $data[$key]["in_time"] = $attend ? $attend->in_time : "" ;
+            $data[$key]["out_time"] = $attend ? $attend->out_time : "" ;
+            $data[$key]["notes"] = $attend ? $attend->notes : "" ;
+            $data[$key]["lat"] = $attend ? $attend->lat : "" ;
+            $data[$key]["lng"] = $attend ? $attend->lng : "" ;
 
-            $data[$key]["out_notes"] = $attend ? $attend->out_notes : null;
-            $data[$key]["out_lat"] = $attend ? $attend->out_lat : null;
-            $data[$key]["out_lng"] = $attend ? $attend->out_lng : null;
+            $data[$key]["out_notes"] = $attend ? $attend->out_notes : "" ;
+            $data[$key]["out_lat"] = $attend ? $attend->out_lat : "" ;
+            $data[$key]["out_lng"] = $attend ? $attend->out_lng : "" ;
         }
         $response['user'] = $user_data->name;
         $response['report'] = $data;
@@ -143,16 +143,16 @@ class AttendanceController extends Controller
             foreach ($dateStrings as $key => $date) {
                 $attend = Attendance::where('user_id', $item->id)->whereDate('date', $date)->first();
                 $data[$key]["date"] = $date;
-                $data[$key]["in_time"] = $attend ? $attend->in_time : null;
-                $data[$key]["out_time"] = $attend ? $attend->out_time : null;
+                $data[$key]["in_time"] = $attend ? $attend->in_time : "" ;
+                $data[$key]["out_time"] = $attend ? $attend->out_time : "" ;
 
-                $data[$key]["notes"] = $attend ? $attend->notes : null;
-                $data[$key]["lat"] = $attend ? $attend->lat : null;
-                $data[$key]["lng"] = $attend ? $attend->lng : null;
+                $data[$key]["notes"] = $attend ? $attend->notes : "" ;
+                $data[$key]["lat"] = $attend ? $attend->lat : "" ;
+                $data[$key]["lng"] = $attend ? $attend->lng : "" ;
 
-                $data[$key]["out_notes"] = $attend ? $attend->out_notes : null;
-                $data[$key]["out_lat"] = $attend ? $attend->out_lat : null;
-                $data[$key]["out_lng"] = $attend ? $attend->out_lng : null;
+                $data[$key]["out_notes"] = $attend ? $attend->out_notes : "" ;
+                $data[$key]["out_lat"] = $attend ? $attend->out_lat : "" ;
+                $data[$key]["out_lng"] = $attend ? $attend->out_lng : "" ;
             }
             $response[$key1]['user'] = $item->name;
             $response[$key1]['report'] = $data;
