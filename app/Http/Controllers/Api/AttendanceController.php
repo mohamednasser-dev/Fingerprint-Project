@@ -52,7 +52,7 @@ class AttendanceController extends Controller
             }
 
             if ($attendance_today->out_time != null) {
-                 
+
                 $data['out_time'] = Carbon::now()->format("H:i");
                 $attendance_today->update($data);
             }

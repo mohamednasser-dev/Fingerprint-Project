@@ -24,6 +24,7 @@ class UserController extends Controller
             'phone' => 'required',
             'password' => 'required|min:6',
             'device_id' => 'nullable|max:255',
+            'fcm_token' => 'nullable|max:255',
         ];
         $validate = Validator::make($request->all(), $rule);
         if ($validate->fails()) {
@@ -50,6 +51,7 @@ class UserController extends Controller
                 }
                 if ($user->device_id == null) {
                     $user->device_id = $request->device_id;
+                    $user->fcm_token = $request->fcm_token;
                     $user->save();
                 } else {
                     if ($user->device_id != null && $user->device_id != $request->device_id) {
@@ -66,7 +68,7 @@ class UserController extends Controller
         }
     }
 
-   public function getData(Request $request)
+    public function getData(Request $request)
     {
         $jwt = ($request->hasHeader('jwt') ? $request->header('jwt') : "");
         $user = check_jwt($jwt);
@@ -134,7 +136,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = User::Where('type', 'user')->orderBy('id','desc')->paginate(10);
+        $users = User::orderBy('type', 'desc')->paginate(10);
         $data = UsersDashboardResource::collection($users)->response()->getData(true);
         return msgdata(success(), 'تم عرض البيانات بنجاح', $data);
     }
@@ -142,7 +144,6 @@ class UserController extends Controller
     public function store(UsersRequest $request)
     {
         $data = $request->validated();
-        $data['type'] = 'user';
         $user = User::create($data);
         $data = new UsersDashboardResource($user);
         return msgdata(success(), 'تم الاضافة بنجاح', $data);
@@ -155,6 +156,9 @@ class UserController extends Controller
             $data['password'] = bcrypt($data['password']);
         } else {
             unset($data['password']);
+        }
+        if ($data['is_active'] == 0) {
+            $data['jwt'] = null;
         }
         User::whereId($data['id'])->update($data);
         return msgdata(success(), 'تم التعديل بنجاح', (object)[]);

@@ -25,6 +25,7 @@ class User extends Authenticatable
         'jwt',
         'password',
         'is_active',
+        'fcm_token',
     ];
 
     /**

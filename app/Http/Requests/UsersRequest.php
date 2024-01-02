@@ -32,6 +32,7 @@ class UsersRequest extends FormRequest
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
             'is_active' => 'required|in:0,1',
+            'type' => 'required|in:user,admin',
         ];
     }
 
