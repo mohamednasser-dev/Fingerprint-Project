@@ -68,7 +68,7 @@
                             </tr>
                             <tr>
                                 <td style="text-align: center">الانصراف</td>
-                                <td style="text-align: center">{{$details['out_time'] ? $details['out_time']->format('g:i a') : 'لم يتم الانصراف'}}</td>
+                                <td style="text-align: center">{{$details['out_time'] ? date('g:i a', strtotime($details['out_time'])): 'لم يتم الانصراف'}}</td>
                                 <td style="text-align: center">{{$details['out_notes' ]}}</td>
                                 <td style="text-align: center">{{$details['out_lat']}}</td>
                                 <td style="text-align: center">{{$details['out_lng']}}</td>
