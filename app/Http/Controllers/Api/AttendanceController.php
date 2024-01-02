@@ -52,11 +52,11 @@ class AttendanceController extends Controller
             }
 
             if ($attendance_today->out_time != null) {
-                return msgdata(failed(), ' تم تسجيل انصراف اليوم من قبل', (object)[]);
+                 
+                $data['out_time'] = Carbon::now()->format("H:i");
+                $attendance_today->update($data);
             }
 
-            $data['out_time'] = Carbon::now()->format("H:i");
-            $attendance_today->update($data);
             return msgdata(success(), 'تم تسجيل انصراف بنجاح', (object)[]);
         }
     }
