@@ -25,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         App::setLocale('ar');
-        date_default_timezone_set('Africa/Cairo');
+        date_default_timezone_set('Asia/Riyadh');
+
     }
 }

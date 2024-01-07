@@ -34,6 +34,7 @@ class AttendanceController extends Controller
             $data['out_lng'] = $request->lng;
         }
 
+
         $data['date'] = Carbon::now()->format("Y-m-d");
         $attendance_today = Attendance::where('user_id', $user->id)
             ->where('date', $data['date'])
@@ -51,11 +52,10 @@ class AttendanceController extends Controller
                 return msgdata(failed(), ' برجاء تسجيل حضور اولآ', (object)[]);
             }
 
-            if ($attendance_today->out_time != null) {
 
                 $data['out_time'] = Carbon::now()->format("H:i");
                 $attendance_today->update($data);
-            }
+           
 
             return msgdata(success(), 'تم تسجيل انصراف بنجاح', (object)[]);
         }
