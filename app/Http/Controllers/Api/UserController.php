@@ -35,7 +35,7 @@ class UserController extends Controller
             $token = Auth::attempt($credentials);
             //return token
             if (!$token) {
-                return msgdata(not_authoize(), 'رقم الهاتف او كلمه المرور خاطئة', (object)[]);
+                return msgdata(error(), 'رقم الهاتف او كلمه المرور خاطئة', (object)[]);
             }
             $user = Auth::user();
             if ($user->type == 'user') {
